@@ -1,9 +1,7 @@
-"use client";
-
 import { Card } from "@/components/ui/card";
 import { Crown, Target, Zap, Trophy } from "lucide-react";
 import { LeetCodeUserData } from "@/lib/types";
-import { calculateSuccessRate } from "@/lib/calculations";
+import { calculateSuccessRate, calculateCurrentStreak } from "@/lib/calculations";
 
 interface StatsGridProps {
   userData: LeetCodeUserData;
@@ -11,6 +9,7 @@ interface StatsGridProps {
 
 export function StatsGrid({ userData }: StatsGridProps) {
   const successRate = calculateSuccessRate(userData);
+  const currentStreak = calculateCurrentStreak(userData);
 
   const stats = [
     {
@@ -33,7 +32,7 @@ export function StatsGrid({ userData }: StatsGridProps) {
     },
     {
       label: "Current Streak",
-      value: userData.streak || 0,
+      value: currentStreak,
       icon: Zap,
       color: "text-blue-500",
     },

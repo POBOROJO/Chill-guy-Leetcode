@@ -1,13 +1,8 @@
 import { LeetCodeUserData } from "./types";
+import { calculateStreak } from './calculateStreak';
 
 export function calculateChillScore(userData: LeetCodeUserData): number {
   if (!userData) return 0;
-
-  console.log("Calculating score for:", {
-    totalSolved: userData.totalSolved,
-    submissionCalendar: userData.submissionCalendar,
-    totalSubmissions: userData.totalSubmissions,
-  });
 
   // Calculate base score from solved problems
   const totalProblems = userData.totalSolved || 0;
@@ -44,7 +39,7 @@ export function calculateChillScore(userData: LeetCodeUserData): number {
 export function calculateSuccessRate(userData: LeetCodeUserData): number {
   // Add validation
   if (!userData || !userData.matchedUserStats || !userData.totalSubmissions) {
-    console.log('Invalid user data for success rate:', {
+    console.error('Invalid user data for success rate:', {
       matchedUserStats: userData?.matchedUserStats,
       totalSubmissions: userData?.totalSubmissions
     });
@@ -70,6 +65,13 @@ export function calculateSuccessRate(userData: LeetCodeUserData): number {
 
   // Round to 2 decimal places
   const roundedAcceptanceRate = Math.round(acceptanceRate * 100) / 100;
-  console.log('Acceptance Rate:', roundedAcceptanceRate);
   return roundedAcceptanceRate;
+}
+
+export function calculateCurrentStreak(userData: LeetCodeUserData): number {
+  if (!userData || !userData.submissionCalendar) {
+    return 0;
+  }
+  
+  return calculateStreak(userData.submissionCalendar);
 }

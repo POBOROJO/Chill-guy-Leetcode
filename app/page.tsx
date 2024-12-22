@@ -13,6 +13,7 @@ import { ShareButtons } from "@/components/share-buttons";
 import { Loader2 } from "lucide-react";
 import { calculateChillScore } from "@/lib/calculations";
 import { LeetCodeUserData } from "@/lib/types";
+import { AnimatedHeader } from "@/components/animated-header";
 
 export default function Home() {
   const [username, setUsername] = useState("");
@@ -52,40 +53,31 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-background to-muted">
-      <div className="container mx-auto px-4 py-16 flex flex-col items-center justify-center min-h-screen">
-        {!userData ? (
-          <div className="max-w-xl w-full space-y-8 text-center">
-            <div className="space-y-4">
-              <h1 className="text-4xl font-bold tracking-tight">
-                LeetCode Chill Guy Analyzer
-              </h1>
-              <p className="text-muted-foreground">
-                Enter your LeetCode username to discover your Chill Guy Score™ and see how
-                your problem-solving journey aligns with the zen of coding.
-              </p>
+    <div className="container mx-auto px-4 py-16 flex flex-col items-center justify-center min-h-screen">
+      {!userData ? (
+        <div className="max-w-xl w-full space-y-8">
+          <AnimatedHeader />
+          <Card className="p-6">
+            <div className="flex flex-col gap-4">
+              <Input
+                placeholder="Enter LeetCode username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                className="h-12 text-lg"
+                onKeyDown={(e) => e.key === 'Enter' && fetchUserData()}
+              />
+              <Button
+                size="lg"
+                onClick={fetchUserData}
+                disabled={loading}
+                className="w-full"
+              >
+                {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                Analyze Profile
+              </Button>
             </div>
-
-            <Card className="p-6">
-              <div className="flex flex-col gap-4">
-                <Input
-                  placeholder="Enter LeetCode username"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  className="h-12 text-lg"
-                  onKeyDown={(e) => e.key === 'Enter' && fetchUserData()}
-                />
-                <Button
-                  size="lg"
-                  onClick={fetchUserData}
-                  disabled={loading}
-                  className="w-full"
-                >
-                  {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                  Analyze Profile
-                </Button>
-              </div>
-            </Card>
-          </div>
+          </Card>
+        </div>
         ) : (
           <div className="w-full max-w-7xl space-y-8 animate-in fade-in-50">
             <ChillGuyScore userData={userData} username={username} />
