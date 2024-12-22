@@ -10,12 +10,11 @@ import { StatsGrid } from "@/components/stats-grid";
 import { ActivityChart } from "@/components/charts/activity-chart";
 import { DifficultyChart } from "@/components/charts/difficulty-chart";
 import { Loader2 } from "lucide-react";
-import { LeetCodeUserData } from "@/lib/types";
 
 export default function Home() {
   const [username, setUsername] = useState("");
   const [loading, setLoading] = useState(false);
-  const [userData, setUserData] = useState<LeetCodeUserData | null>(null);
+  const [userData, setUserData] = useState(null);
   const { toast } = useToast();
 
   const fetchUserData = async () => {
@@ -33,8 +32,6 @@ export default function Home() {
       const response = await fetch(
         `https://leetcode-api-faisalshohag.vercel.app/${username}`
       );
-      if (!response.ok) throw new Error('Failed to fetch user data');
-      
       const data = await response.json();
       setUserData(data);
     } catch (error) {
@@ -49,42 +46,43 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-background to-muted p-4 md:p-8">
-      <div className="max-w-7xl mx-auto space-y-8">
-        <div className="text-center space-y-4">
-          <h1 className="text-4xl font-bold tracking-tight">
-            LeetCode Chill Guy Analyzer
-          </h1>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            Enter your LeetCode username to discover your Chill Guy Score™ and see how
-            your problem-solving journey aligns with the zen of coding.
-          </p>
-        </div>
-
-        <Card className="p-6">
-          <div className="flex flex-col md:flex-row gap-4 items-end">
-            <div className="flex-1">
-              <Input
-                placeholder="Enter LeetCode username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                className="h-12"
-              />
+    <main className="min-h-screen bg-gradient-to-b from-background to-muted">
+      <div className="container mx-auto px-4 py-16 flex flex-col items-center justify-center min-h-screen">
+        {!userData ? (
+          <div className="max-w-xl w-full space-y-8 text-center">
+            <div className="space-y-4">
+              <h1 className="text-4xl font-bold tracking-tight">
+                LeetCode Chill Guy Analyzer
+              </h1>
+              <p className="text-muted-foreground">
+                Enter your LeetCode username to discover your Chill Guy Score™ and see how
+                your problem-solving journey aligns with the zen of coding.
+              </p>
             </div>
-            <Button
-              size="lg"
-              onClick={fetchUserData}
-              disabled={loading}
-              className="w-full md:w-auto"
-            >
-              {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              Analyze Profile
-            </Button>
-          </div>
-        </Card>
 
-        {userData && (
-          <div className="grid gap-8">
+            <Card className="p-6">
+              <div className="flex flex-col gap-4">
+                <Input
+                  placeholder="Enter LeetCode username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  className="h-12 text-lg"
+                  onKeyDown={(e) => e.key === 'Enter' && fetchUserData()}
+                />
+                <Button
+                  size="lg"
+                  onClick={fetchUserData}
+                  disabled={loading}
+                  className="w-full"
+                >
+                  {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                  Analyze Profile
+                </Button>
+              </div>
+            </Card>
+          </div>
+        ) : (
+          <div className="w-full max-w-7xl space-y-8 animate-in fade-in-50">
             <ChillGuyScore userData={userData} username={username} />
             <StatsGrid userData={userData} />
             <div className="grid md:grid-cols-2 gap-8">

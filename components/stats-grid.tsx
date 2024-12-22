@@ -1,7 +1,7 @@
 "use client";
 
 import { Card } from "@/components/ui/card";
-import { Brain, Target, Zap, Trophy } from "lucide-react";
+import { Crown, Target, Zap, Trophy } from "lucide-react";
 import { LeetCodeUserData } from "@/lib/types";
 import { calculateSuccessRate } from "@/lib/calculations";
 
@@ -20,16 +20,16 @@ export function StatsGrid({ userData }: StatsGridProps) {
       color: "text-yellow-500",
     },
     {
-      label: "Success Rate",
+      label: "Acceptance Rate",
       value: `${successRate}%`,
       icon: Target,
       color: "text-green-500",
     },
     {
-      label: "Hard Problems",
-      value: userData.hardSolved || 0,
-      icon: Brain,
-      color: "text-red-500",
+      label: "Ranking",
+      value: userData.ranking || "N/A",
+      icon: Crown,
+      color: "text-purple-500",
     },
     {
       label: "Current Streak",
