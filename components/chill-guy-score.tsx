@@ -3,7 +3,6 @@
 import { Card } from "@/components/ui/card";
 import Image from "next/image";
 import { calculateChillScore } from "@/lib/calculations";
-import { ShareButtons } from "@/components/share-buttons";
 import { LeetCodeUserData } from "@/lib/types";
 import { getImageUrl } from "@/lib/utils";
 
@@ -13,16 +12,14 @@ interface ChillGuyScoreProps {
 }
 
 export function ChillGuyScore({ userData, username }: ChillGuyScoreProps) {
-  console.log("UserData:", userData);
   const score = calculateChillScore(userData);
-  console.log("Calculated Score:", score);
-  const imageUrl = getImageUrl("/chill_guy.webp");
+  const imageUrl = getImageUrl('/chill_guy.webp');
 
   return (
-    <div>
-      <Card className="p-6" id="score-card">
-        <div className="flex flex-col md:flex-row items-center gap-8">
-          <div className="relative w-48 h-48 flex-shrink-0">
+    <Card className="p-6" id="score-card">
+      <div className="flex flex-col items-center gap-8">
+        <div className="text-center">
+          <div className="relative w-48 h-48">
             <Image
               src={imageUrl}
               alt="Chill Guy"
@@ -33,19 +30,19 @@ export function ChillGuyScore({ userData, username }: ChillGuyScoreProps) {
               unoptimized
             />
           </div>
-          <div className="flex-1 text-center md:text-left">
-            <h2 className="text-2xl font-bold mb-2">Your Chill Guy Score</h2>
-            <div className="text-6xl font-bold text-primary mb-4">
-              {typeof score === "number" ? `${score}%` : "N/A"}
-            </div>
-            <p className="text-muted-foreground">
-              Based on your problem-solving patterns, consistency, and overall
-              approach to coding challenges.
-            </p>
-          </div>
+          <p className="text-lg font-medium text-muted-foreground mt-4 mr-9">
+            {username}
+          </p>
         </div>
-      </Card>
-      <ShareButtons username={username} score={score} />
-    </div>
+        <div className="text-center">
+          <h2 className="text-2xl font-bold mb-2">Your Chill Guy Score™</h2>
+          <div className="text-6xl font-bold text-primary mb-4">{score}%</div>
+          <p className="text-muted-foreground">
+            Based on your problem-solving patterns, consistency, and overall approach
+            to coding challenges.
+          </p>
+        </div>
+      </div>
+    </Card>
   );
 }

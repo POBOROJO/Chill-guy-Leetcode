@@ -43,16 +43,26 @@ export function ShareButtons({ username, score }: ShareButtonsProps) {
     );
   };
 
+  const followOnTwitter = () => {
+    window.open('https://twitter.com/intent/follow?screen_name=poborojo', '_blank');
+  };
+
   return (
-    <div className="flex gap-4 justify-center mt-6">
-      <Button onClick={downloadImage} variant="outline">
-        <Download className="mr-2 h-4 w-4" />
-        Download Image
-      </Button>
-      <Button onClick={shareOnTwitter} variant="outline">
-        <Twitter className="mr-2 h-4 w-4" />
-        Share on X
-      </Button>
+    <div className="flex flex-col items-center gap-6">
+      <div className="flex flex-wrap justify-center gap-4">
+        <Button onClick={downloadImage} variant="outline" className="min-w-[200px]">
+          <Download className="mr-2 h-4 w-4" />
+          Download Image
+        </Button>
+        <Button onClick={shareOnTwitter} variant="outline" className="min-w-[200px]">
+          <Twitter className="mr-2 h-4 w-4" />
+          Share on X
+        </Button>
+        <Button onClick={followOnTwitter} variant="outline" className="min-w-[200px]">
+          <Twitter className="mr-2 h-4 w-4" />
+          Follow me On Twitter
+        </Button>
+      </div>
     </div>
   );
 }

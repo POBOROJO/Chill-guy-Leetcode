@@ -9,12 +9,15 @@ import { ChillGuyScore } from "@/components/chill-guy-score";
 import { StatsGrid } from "@/components/stats-grid";
 import { ActivityChart } from "@/components/charts/activity-chart";
 import { DifficultyChart } from "@/components/charts/difficulty-chart";
+import { ShareButtons } from "@/components/share-buttons";
 import { Loader2 } from "lucide-react";
+import { calculateChillScore } from "@/lib/calculations";
+import { LeetCodeUserData } from "@/lib/types";
 
 export default function Home() {
   const [username, setUsername] = useState("");
   const [loading, setLoading] = useState(false);
-  const [userData, setUserData] = useState(null);
+  const [userData, setUserData] = useState<LeetCodeUserData | null>(null);
   const { toast } = useToast();
 
   const fetchUserData = async () => {
@@ -32,6 +35,8 @@ export default function Home() {
       const response = await fetch(
         `https://leetcode-api-faisalshohag.vercel.app/${username}`
       );
+      if (!response.ok) throw new Error('Failed to fetch user data');
+      
       const data = await response.json();
       setUserData(data);
     } catch (error) {
@@ -88,6 +93,9 @@ export default function Home() {
             <div className="grid md:grid-cols-2 gap-8">
               <ActivityChart userData={userData} />
               <DifficultyChart userData={userData} />
+            </div>
+            <div className="mt-12">
+              <ShareButtons username={username} score={calculateChillScore(userData)} />
             </div>
           </div>
         )}
