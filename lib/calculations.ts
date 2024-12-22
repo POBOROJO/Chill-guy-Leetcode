@@ -73,33 +73,3 @@ export function calculateSuccessRate(userData: LeetCodeUserData): number {
   console.log('Acceptance Rate:', roundedAcceptanceRate);
   return roundedAcceptanceRate;
 }
-
-function calculateStreak(submissionCalendar: Record<string, number>): number {
-  const sortedTimestamps = Object.keys(submissionCalendar)
-    .map(Number)
-    .sort((a, b) => a - b);
-  
-  let maxStreak = 0;
-  let currentStreak = 1; // Initialize as 1 since we have at least one submission
-  
-  for (let i = 1; i < sortedTimestamps.length; i++) {
-    const currentDate = new Date(sortedTimestamps[i] * 1000); // Convert from Unix timestamp
-    const previousDate = new Date(sortedTimestamps[i - 1] * 1000);
-    
-    // Check if the current date is exactly one day after the previous date
-    const dayDifference = (currentDate.getTime() - previousDate.getTime()) / (1000 * 3600 * 24);
-    
-    if (dayDifference === 1) {
-      currentStreak++;
-    } else if (dayDifference > 1) {
-      // Reset streak if the days are not consecutive
-      maxStreak = Math.max(maxStreak, currentStreak);
-      currentStreak = 1; // Reset to 1 as the streak broke
-    }
-  }
-  
-  // Final check for the longest streak
-  maxStreak = Math.max(maxStreak, currentStreak);
-  
-  return maxStreak;
-}
