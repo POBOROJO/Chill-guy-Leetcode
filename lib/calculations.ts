@@ -39,12 +39,14 @@ export function calculateChillScore(userData: LeetCodeUserData): number {
 export function calculateSuccessRate(userData: LeetCodeUserData): number {
   // Add validation
   if (!userData || !userData.matchedUserStats || !userData.totalSubmissions) {
-    console.error('Invalid user data for success rate:', {
-      matchedUserStats: userData?.matchedUserStats,
-      totalSubmissions: userData?.totalSubmissions
-    });
+    if (typeof window !== 'undefined') {
+        console.error('Invalid user data for success rate:', {
+            matchedUserStats: userData?.matchedUserStats,
+            totalSubmissions: userData?.totalSubmissions
+        });
+    }
     return 0;
-  }
+}
 
   // Get the "All" difficulty submissions
   const acceptedSubmissions = userData.matchedUserStats.acSubmissionNum.find(

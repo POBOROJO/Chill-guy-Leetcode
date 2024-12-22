@@ -13,7 +13,7 @@ interface ChillGuyScoreProps {
 
 export function ChillGuyScore({ userData, username }: ChillGuyScoreProps) {
   const score = calculateChillScore(userData);
-  const imageUrl = getImageUrl('/chill_guy.png');
+  const imageUrl = getImageUrl('/chill_guy2.webp');
 
   return (
     <Card className="p-6" id="score-card">
@@ -36,7 +36,7 @@ export function ChillGuyScore({ userData, username }: ChillGuyScoreProps) {
         </div>
         <div className="text-center">
           <h2 className="text-2xl font-bold mb-2">Your Chill Guy Score</h2>
-          <div className="text-6xl font-bold text-primary mb-4">{score}%</div>
+          <div className="text-6xl font-bold text-primary mb-4 ml-14">{score}%</div>
           <p className="text-muted-foreground">
             Based on your problem-solving patterns, consistency, and overall approach
             to coding challenges.

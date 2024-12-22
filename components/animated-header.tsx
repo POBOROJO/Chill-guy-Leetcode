@@ -13,7 +13,7 @@ export function AnimatedHeader() {
           transition={{ duration: 0.6, ease: "easeOut" }}
         >
           <Image
-            src="/leetcode-logo.jpeg"
+            src="https://utfs.io/f/uv0QKkkaMro3gL0ElmtH9EdRViLjtUP6AQTYvDkaClZy2Ipx"
             alt="LeetCode Logo"
             width={150}
             height={150}
@@ -36,7 +36,7 @@ export function AnimatedHeader() {
           transition={{ duration: 0.6, ease: "easeOut" }}
         >
           <Image
-            src="/chill_guy.png"
+            src="https://utfs.io/f/uv0QKkkaMro3WjBRKLLogZ7eJTiwhp5YMc2q4ust61zyEVln"
             alt="Chill Guy"
             width={210}
             height={210}

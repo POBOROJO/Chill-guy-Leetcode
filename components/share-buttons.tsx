@@ -18,8 +18,14 @@ export function ShareButtons({ username, score }: ShareButtonsProps) {
       const element = document.getElementById('score-card');
       if (!element) return;
 
-      const canvas = await html2canvas(element);
-      const dataUrl = canvas.toDataURL('image/png');
+      const canvas = await html2canvas(element, {
+        backgroundColor: '#ffffff',
+        removeContainer: true,
+        scale: 2,
+        width: element.offsetWidth,
+        height: element.offsetHeight
+      });
+      const dataUrl = canvas.toDataURL('image/png',1.0);
       
       const link = document.createElement('a');
       link.download = `leetcode-chill-score-${username}.png`;
@@ -35,16 +41,19 @@ export function ShareButtons({ username, score }: ShareButtonsProps) {
   };
 
   const shareOnTwitter = () => {
-    const text = `Check out my LeetCode Chill Guy Score: ${score}%! How chill are you at coding? 😎 #LeetCode #ChillGuyScore`;
-    const url = window.location.href;
-    window.open(
-      `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`,
-      '_blank'
-    );
+    if (typeof window !== 'undefined') {
+      const text = `Check out my LeetCode Chill Guy Score: ${score}%! How chill are you at coding? 😎 #LeetCode #ChillGuyScore`;
+      const url = window.location.href;
+      window.open(
+        `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`,
+        '_blank'
+      );
+    }
   };
-
   const followOnTwitter = () => {
-    window.open('https://twitter.com/intent/follow?screen_name=poborojo', '_blank');
+    if (typeof window !== 'undefined') {
+      window.open('https://twitter.com/intent/follow?screen_name=poborojo', '_blank');
+    }
   };
 
   return (
