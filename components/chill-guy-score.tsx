@@ -14,7 +14,7 @@ interface ChillGuyScoreProps {
 
 export function ChillGuyScore({ userData, username }: ChillGuyScoreProps) {
   const percent = calculateChillScore(userData);
-  const imageUrl = getImageUrl('/chill_guy2.webp');
+  const imageUrl = getImageUrl('/chillguy-leetcode.webp');
   const message = getChillMessage(percent);
 
   return (

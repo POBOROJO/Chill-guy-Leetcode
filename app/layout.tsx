@@ -1,6 +1,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { url } from "node:inspector";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -37,6 +38,24 @@ export const metadata: Metadata = {
     description:
       "Discover your LeetCode chill score and see how your problem-solving journey aligns with the zen of coding.",
     url: "https://chillguy-leetcode.vercel.app/",
+    siteName: "Chill Guy LeetCode Analyzer",
+    images: [
+      {
+        url: "https://utfs.io/f/uv0QKkkaMro3KWi1hUOjy8DYtIT9XR2fdgiZQhJNuBOcMwnk",
+        width: 1200,
+        height: 630,
+        alt: "Chill Guy LeetCode Analyzer Preview",
+      },
+    ],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Chill Guy LeetCode Analyzer | Check Your Coding Zen",
+    description:
+      "Discover your LeetCode chill score and get personalized insights into your coding journey.",
+    images: ["https://utfs.io/f/uv0QKkkaMro3KWi1hUOjy8DYtIT9XR2fdgiZQhJNuBOcMwnk"],
+    creator: "@poborojo",
   },
 };
 
