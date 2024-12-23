@@ -5,6 +5,7 @@ import Image from "next/image";
 import { calculateChillScore } from "@/lib/calculations";
 import { LeetCodeUserData } from "@/lib/types";
 import { getImageUrl } from "@/lib/utils";
+import { getChillMessage } from "@/lib/chillMessages";
 
 interface ChillGuyScoreProps {
   userData: LeetCodeUserData;
@@ -14,6 +15,7 @@ interface ChillGuyScoreProps {
 export function ChillGuyScore({ userData, username }: ChillGuyScoreProps) {
   const percent = calculateChillScore(userData);
   const imageUrl = getImageUrl('/chill_guy2.webp');
+  const message = getChillMessage(percent);
 
   return (
     <Card className="p-6" id="score-card">
@@ -38,8 +40,7 @@ export function ChillGuyScore({ userData, username }: ChillGuyScoreProps) {
           <h2 className="text-2xl font-bold mb-2">Your Chill Guy level</h2>
           <div className="text-6xl font-bold text-primary mb-4 ml-14">{percent}%</div>
           <p className="text-muted-foreground">
-            Based on your problem-solving patterns, consistency, and overall approach
-            to coding challenges.
+            {message}
           </p>
         </div>
       </div>
