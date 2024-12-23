@@ -23,3 +23,11 @@ export interface ShareableImage {
   url: string;
   downloadUrl: string;
 }
+
+export interface LeetCodeError {
+  message: string;
+}
+
+export interface LeetCodeErrorResponse {
+  errors?: LeetCodeError[];
+}

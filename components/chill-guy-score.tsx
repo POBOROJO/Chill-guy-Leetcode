@@ -14,7 +14,7 @@ interface ChillGuyScoreProps {
 
 export function ChillGuyScore({ userData, username }: ChillGuyScoreProps) {
   const percent = calculateChillScore(userData);
-  const imageUrl = getImageUrl('/chillguy-leetcode.webp');
+  const imageUrl = getImageUrl("/chillguy-leetcode.webp");
   const message = getChillMessage(percent);
 
   return (
@@ -38,10 +38,10 @@ export function ChillGuyScore({ userData, username }: ChillGuyScoreProps) {
         </div>
         <div className="text-center">
           <h2 className="text-2xl font-bold mb-2">Your Chill Guy level</h2>
-          <div className="text-6xl font-bold text-primary mb-4 ml-14">{percent}%</div>
-          <p className="text-muted-foreground">
-            {message}
-          </p>
+          <div className="text-6xl font-bold text-primary mb-4 ml-14">
+            {percent}%
+          </div>
+          <p className="text-muted-foreground">{message}</p>
         </div>
       </div>
     </Card>
