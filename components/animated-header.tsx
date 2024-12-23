@@ -51,7 +51,7 @@ export function AnimatedHeader() {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, delay: 0.4 }}
       >
-        Enter your LeetCode username to discover your Chill Guy Score and see how
+        Enter your LeetCode username to discover how chill are you and see how
         your problem-solving journey aligns with the zen of coding.
       </motion.p>
     </div>
