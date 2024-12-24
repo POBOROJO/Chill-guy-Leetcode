@@ -56,7 +56,7 @@ export const metadata: Metadata = {
       "Discover your LeetCode chill score and get personalized insights into your coding journey.",
     images: [
       {
-        url: "https://utfs.io/f/uv0QKkkaMro3KWi1hUOjy8DYtIT9XR2fdgiZQhJNuBOcMwnk",
+        url: "https://utfs.io/f/uv0QKkkaMro3cMBSOyRCxAUL8MqDjf1KPO3wu0nkW9XZim62",
         width: 1200,
         height: 630,
         alt: "Chill Guy LeetCode Analyzer Preview",
