@@ -1,6 +1,6 @@
 import { LeetCodeUserData } from "../types";
 
-const MAX_RANKING = 500000;
+const MAX_RANKING = 600000;
 
 export function calculateRankingScore(userData: LeetCodeUserData): number {
   const ranking = userData.ranking || 0;

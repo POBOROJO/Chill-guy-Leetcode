@@ -10,6 +10,7 @@ import { StatsGrid } from "@/components/stats-grid";
 import { ActivityChart } from "@/components/charts/activity-chart";
 import { DifficultyChart } from "@/components/charts/difficulty-chart";
 import { ShareButtons } from "@/components/share-buttons";
+import { BackButton } from "@/components/back-button";
 import { Loader2 } from "lucide-react";
 import { calculateChillScore } from "@/lib/calculations";
 import {
@@ -69,9 +70,14 @@ export default function Home() {
     }
   };
 
+  const handleBack = () => {
+    setUserData(null);
+    setUsername("");
+  };
+
   return (
     <main className="min-h-screen bg-gradient-to-b from-background to-muted">
-      <div className="container mx-auto px-4 py-16 flex flex-col items-center justify-center min-h-screen">
+      <div className="container mx-auto px-4 py-16 flex flex-col items-center justify-center min-h-screen relative">
         {!userData ? (
           <div className="max-w-xl w-full space-y-8">
             <AnimatedHeader />
@@ -98,6 +104,7 @@ export default function Home() {
           </div>
         ) : (
           <div className="w-full max-w-7xl space-y-8 animate-in fade-in-50">
+            <BackButton onBack={handleBack} />
             <ChillGuyScore userData={userData} username={username} />
             <StatsGrid userData={userData} />
             <div className="grid md:grid-cols-2 gap-8">
