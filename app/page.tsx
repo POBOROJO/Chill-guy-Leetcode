@@ -19,6 +19,7 @@ import {
   LeetCodeUserData,
 } from "@/lib/types";
 import { AnimatedHeader } from "@/components/animated-header";
+import Link from "next/link";
 
 export default function Home() {
   const [username, setUsername] = useState("");
@@ -78,6 +79,8 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-gradient-to-b from-background to-muted">
       <div className="container mx-auto px-4 py-16 flex flex-col items-center justify-center min-h-screen relative">
+        {userData && <BackButton onBack={handleBack} />}
+        
         {!userData ? (
           <div className="max-w-xl w-full space-y-8">
             <AnimatedHeader />
@@ -99,12 +102,20 @@ export default function Home() {
                   {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                   Analyze Profile
                 </Button>
+                <Link href="/compare" className="w-full">
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    className="w-full"
+                  >
+                    Compare Users
+                  </Button>
+                </Link>
               </div>
             </Card>
           </div>
         ) : (
           <div className="w-full max-w-7xl space-y-8 animate-in fade-in-50">
-            <BackButton onBack={handleBack} />
             <ChillGuyScore userData={userData} username={username} />
             <StatsGrid userData={userData} />
             <div className="grid md:grid-cols-2 gap-8">

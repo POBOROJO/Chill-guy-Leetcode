@@ -1,7 +1,8 @@
 import { Card } from "@/components/ui/card";
-import { Crown, Target, Zap, Trophy } from "lucide-react";
+import { Crown, Target, Zap, Trophy, Flame } from "lucide-react";
 import { LeetCodeUserData } from "@/lib/types";
 import { calculateSuccessRate, calculateCurrentStreak } from "@/lib/calculations";
+import { calculateLongestStreak } from "@/lib/calculateLongestStreak";
 
 interface StatsGridProps {
   userData: LeetCodeUserData;
@@ -10,6 +11,7 @@ interface StatsGridProps {
 export function StatsGrid({ userData }: StatsGridProps) {
   const successRate = calculateSuccessRate(userData);
   const currentStreak = calculateCurrentStreak(userData);
+  const longestStreak = calculateLongestStreak(userData.submissionCalendar);
 
   const stats = [
     {
@@ -25,21 +27,27 @@ export function StatsGrid({ userData }: StatsGridProps) {
       color: "text-green-500",
     },
     {
-      label: "Ranking",
-      value: userData.ranking || "N/A",
-      icon: Crown,
-      color: "text-purple-500",
-    },
-    {
       label: "Current Streak",
       value: currentStreak,
       icon: Zap,
       color: "text-blue-500",
     },
+    {
+      label: "Longest Streak",
+      value: longestStreak,
+      icon: Flame,
+      color: "text-orange-500",
+    },
+    {
+      label: "Ranking",
+      value: userData.ranking?.toLocaleString() || "N/A",
+      icon: Crown,
+      color: "text-purple-500",
+    },
   ];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
       {stats.map((stat) => (
         <Card key={stat.label} className="p-6">
           <div className="flex items-center gap-4">
