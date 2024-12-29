@@ -40,7 +40,7 @@ export function UserComparison() {
     if (validUsernames.length === 1) {
       toast({
         title: "Username required",
-        description: "Please enter at least one LeetCode username to compare",
+        description: "Please enter at least one valid Leetcode username to compare",
         variant: "destructive",
       });
       return;
