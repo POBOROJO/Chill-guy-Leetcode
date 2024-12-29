@@ -36,35 +36,70 @@ export function UserComparison() {
 
   const fetchUserData = async () => {
     const validUsernames = usernames.filter((username) => username.trim());
-
-    if (validUsernames.length === 1) {
+  
+    if (validUsernames.length === 0) {
       toast({
         title: "Username required",
-        description: "Please enter at least one valid Leetcode username to compare",
+        description: "Please enter at least one LeetCode username to compare",
         variant: "destructive",
       });
       return;
     }
-
+  
+    if (validUsernames.length === 1) {
+      toast({
+        title: "More usernames needed",
+        description: "Please enter at least two LeetCode usernames to compare",
+        variant: "destructive",
+      });
+      return;
+    }
+  
     setLoading(true);
     const newUsersData: Record<string, LeetCodeUserData> = {};
-
+    let hasError = false;
+  
     try {
       await Promise.all(
         validUsernames.map(async (username) => {
           const response = await fetch(
             `https://leetcode-api-faisalshohag.vercel.app/${username}`
           );
-          if (!response.ok) return;
-
           const data = await response.json();
+  
+          // Check if the response contains errors (user not found)
+          if (data.errors?.some((error: { message: string }) => 
+            error.message.includes("user does not exist")
+          )) {
+            toast({
+              title: "User not found",
+              description: `The username "${username}" does not exist on Leetcode please enter a valid one and try again.`,
+              variant: "destructive",
+            });
+            hasError = true;
+            return;
+          }
+  
+          if (!response.ok) {
+            hasError = true;
+            return;
+          }
+  
           if (!data.errors) {
             newUsersData[username] = data;
           }
         })
       );
-
-      setUsersData(newUsersData);
+  
+      if (!hasError && Object.keys(newUsersData).length > 0) {
+        setUsersData(newUsersData);
+      } else if (!hasError) {
+        toast({
+          title: "Error",
+          description: "Failed to fetch user data. Please check the usernames and try again.",
+          variant: "destructive",
+        });
+      }
     } catch (error) {
       toast({
         title: "Error",
@@ -75,6 +110,7 @@ export function UserComparison() {
       setLoading(false);
     }
   };
+
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter") {
       fetchUserData();

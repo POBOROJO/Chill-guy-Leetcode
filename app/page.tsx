@@ -31,7 +31,7 @@ export default function Home() {
     if (!username) {
       toast({
         title: "Username required",
-        description: "Please enter a LeetCode username",
+        description: "Please enter a Leetcode username",
         variant: "destructive",
       });
       return;
@@ -54,7 +54,7 @@ export default function Home() {
       ) {
         toast({
           title: "User not found",
-          description: "The provided username does not exist on LeetCode",
+          description: `The provided username "${username}" does not exist on LeetCode`,
           variant: "destructive",
         });
         return;
