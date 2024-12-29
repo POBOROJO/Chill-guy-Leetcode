@@ -12,7 +12,9 @@ import { ComparisonTable } from "./comparison-table";
 export function UserComparison() {
   const [usernames, setUsernames] = useState<string[]>([""]);
   const [loading, setLoading] = useState(false);
-  const [usersData, setUsersData] = useState<Record<string, LeetCodeUserData>>({});
+  const [usersData, setUsersData] = useState<Record<string, LeetCodeUserData>>(
+    {}
+  );
   const { toast } = useToast();
 
   const addUsername = () => {
@@ -33,12 +35,12 @@ export function UserComparison() {
   };
 
   const fetchUserData = async () => {
-    const validUsernames = usernames.filter(username => username.trim());
-    
-    if (validUsernames.length === 0) {
+    const validUsernames = usernames.filter((username) => username.trim());
+
+    if (validUsernames.length === 1) {
       toast({
         title: "Username required",
-        description: "Please enter at least one LeetCode username",
+        description: "Please enter at least one LeetCode username to compare",
         variant: "destructive",
       });
       return;
@@ -73,6 +75,11 @@ export function UserComparison() {
       setLoading(false);
     }
   };
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      fetchUserData();
+    }
+  };
 
   return (
     <div className="w-full max-w-4xl mx-auto space-y-6">
@@ -84,6 +91,7 @@ export function UserComparison() {
                 placeholder="Enter LeetCode username"
                 value={username}
                 onChange={(e) => updateUsername(index, e.target.value)}
+                onKeyDown={handleKeyDown}
                 className="flex-1"
               />
               {usernames.length > 1 && (
@@ -97,23 +105,15 @@ export function UserComparison() {
               )}
             </div>
           ))}
-          
+
           {usernames.length < 5 && (
-            <Button
-              variant="outline"
-              onClick={addUsername}
-              className="w-full"
-            >
+            <Button variant="outline" onClick={addUsername} className="w-full">
               <Plus className="h-4 w-4 mr-2" />
               Add User
             </Button>
           )}
 
-          <Button
-            onClick={fetchUserData}
-            disabled={loading}
-            className="w-full"
-          >
+          <Button onClick={fetchUserData} disabled={loading} className="w-full">
             {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             Compare Users
           </Button>
