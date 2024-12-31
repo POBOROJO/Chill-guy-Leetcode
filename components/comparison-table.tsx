@@ -5,7 +5,6 @@ import { LeetCodeUserData } from "@/lib/types";
 import { calculateChillScore } from "@/lib/calculations";
 import { calculateLongestStreak } from "@/lib/calculateLongestStreak";
 import { Crown, Target, Zap, Trophy, Flame } from "lucide-react";
-import { color } from "framer-motion";
 
 interface ComparisonTableProps {
   usersData: Record<string, LeetCodeUserData>;
