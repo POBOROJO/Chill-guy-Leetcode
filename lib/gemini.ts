@@ -1,17 +1,22 @@
 import { LAST_REQUEST_KEY } from "./constants";
 
+// Add a base URL configuration
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://chillguy-leetcode.vercel.app';
+
 export async function getProblemRecommendations(solvedProblems: string[]) {
   try {
-    const response = await fetch("/api/recommendations", {
+    const response = await fetch(`${API_BASE_URL}/api/recommendations`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ solvedProblems }),
+      credentials: 'same-origin'
     });
 
     if (!response.ok) {
-      throw new Error("Failed to fetch recommendations");
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.error || "Failed to fetch recommendations");
     }
 
     const data = await response.json();

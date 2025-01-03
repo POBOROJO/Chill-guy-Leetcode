@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
   try {
     const { solvedProblems } = await request.json();
     
-    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
     const prompt = `Given these solved LeetCode problems: ${solvedProblems.join(", ")}, suggest 3 new problems to practice. Return response as JSON array with properties: title, titleSlug, difficulty, and reason.`;
     
     const result = await model.generateContent(prompt);
@@ -37,19 +37,21 @@ export async function POST(request: NextRequest) {
     
     return NextResponse.json({ recommendations }, { 
       headers: {
-        ...corsHeaders,
-        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
       }
     });
   } catch (error) {
-    console.error('Error in POST handler:', error);
+    console.error('API Error:', error);
     return NextResponse.json(
       { error: "Failed to get recommendations" },
       { 
-        status: 500, 
+        status: 500,
         headers: {
-          ...corsHeaders,
-          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+          'Access-Control-Allow-Headers': 'Content-Type, Authorization',
         }
       }
     );
