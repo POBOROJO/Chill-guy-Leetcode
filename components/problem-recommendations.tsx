@@ -1,14 +1,9 @@
-"use client";
-
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { RecentSubmission } from "@/lib/types";
-import {
-  COOLDOWN_PERIOD,
-  getProblemRecommendations,
-  LAST_REQUEST_KEY,
-} from "@/lib/gemini";
+import { getProblemRecommendations } from "@/lib/gemini";
+import { COOLDOWN_PERIOD, LAST_REQUEST_KEY } from "@/lib/constants";
 import { Loader2, Brain, ExternalLink } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Badge } from "@/components/ui/badge";
@@ -51,20 +46,16 @@ export function ProblemRecommendations({
       }
     };
 
-    // Initial check
     checkCooldown();
-
-    // Set up interval
     const interval = setInterval(checkCooldown, 1000);
-
-    // Cleanup
     return () => clearInterval(interval);
   }, []);
 
-  const getRecommendations = async () => {
+  const handleGetRecommendations = async () => {
+    if (cooldownRemaining > 0) return;
+    
     setLoading(true);
     try {
-      // Get unique solved problems
       const uniqueSolvedProblems = Array.from(
         new Set(
           recentSubmissions
@@ -73,15 +64,17 @@ export function ProblemRecommendations({
         )
       );
 
-      const recommendations = await getProblemRecommendations(
-        uniqueSolvedProblems
-      );
+      if (uniqueSolvedProblems.length === 0) {
+        throw new Error("No solved problems found");
+      }
+
+      const recommendations = await getProblemRecommendations(uniqueSolvedProblems);
       setRecommendations(recommendations);
-      setCooldownRemaining(120);
-    } catch (error) {
+      setCooldownRemaining(COOLDOWN_PERIOD / 1000);
+    } catch (error: any) {
       toast({
         title: "Error",
-        description: "Failed to get problem recommendations. Please try again.",
+        description: error.message || "Failed to get problem recommendations. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -111,7 +104,7 @@ export function ProblemRecommendations({
           </p>
         ) : (
           <RainbowButton
-            onClick={getRecommendations}
+            onClick={handleGetRecommendations}
             disabled={loading}
             className="w-full md:w-auto"
           >
@@ -143,9 +136,7 @@ export function ProblemRecommendations({
                         {rec.title}
                         <ExternalLink className="h-3 w-3" />
                       </a>
-                      <Badge
-                        className={`${getDifficultyColor(rec.difficulty)}`}
-                      >
+                      <Badge className={getDifficultyColor(rec.difficulty)}>
                         {rec.difficulty}
                       </Badge>
                     </div>
@@ -162,5 +153,3 @@ export function ProblemRecommendations({
     </div>
   );
 }
-
-
