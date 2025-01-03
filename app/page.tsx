@@ -11,6 +11,8 @@ import { ActivityChart } from "@/components/charts/activity-chart";
 import { DifficultyChart } from "@/components/charts/difficulty-chart";
 import { ShareButtons } from "@/components/share-buttons";
 import { BackButton } from "@/components/back-button";
+import { ProblemRecommendations } from "@/components/problem-recommendations";
+import { Footer } from "@/components/footer";
 import { Loader2 } from "lucide-react";
 import { calculateChillScore } from "@/lib/calculations";
 import {
@@ -31,7 +33,7 @@ export default function Home() {
     if (!username) {
       toast({
         title: "Username required",
-        description: "Please enter a Leetcode username",
+        description: "Please enter a LeetCode username",
         variant: "destructive",
       });
       return;
@@ -54,7 +56,7 @@ export default function Home() {
       ) {
         toast({
           title: "User not found",
-          description: `The provided username "${username}" does not exist on LeetCode`,
+          description: "The provided username does not exist on LeetCode",
           variant: "destructive",
         });
         return;
@@ -77,12 +79,12 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-background to-muted">
-      <div className="container mx-auto px-4 py-16 flex flex-col items-center justify-center min-h-screen relative">
+    <main className="min-h-screen bg-gradient-to-b from-background to-muted flex flex-col">
+      <div className="container mx-auto px-4 py-16 flex-1 relative">
         {userData && <BackButton onBack={handleBack} />}
         
         {!userData ? (
-          <div className="max-w-xl w-full space-y-8">
+          <div className="max-w-xl w-full space-y-8 mx-auto">
             <AnimatedHeader />
             <Card className="p-6">
               <div className="flex flex-col gap-4">
@@ -115,13 +117,14 @@ export default function Home() {
             </Card>
           </div>
         ) : (
-          <div className="w-full max-w-7xl space-y-8 animate-in fade-in-50">
+          <div className="w-full max-w-7xl space-y-8 animate-in fade-in-50 mx-auto">
             <ChillGuyScore userData={userData} username={username} />
             <StatsGrid userData={userData} />
             <div className="grid md:grid-cols-2 gap-8">
               <ActivityChart userData={userData} />
               <DifficultyChart userData={userData} />
             </div>
+            <ProblemRecommendations recentSubmissions={userData.recentSubmissions || []} />
             <div className="mt-12">
               <ShareButtons
                 username={username}
@@ -131,6 +134,7 @@ export default function Home() {
           </div>
         )}
       </div>
+      <Footer />
     </main>
   );
 }

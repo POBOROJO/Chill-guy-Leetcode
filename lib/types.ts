@@ -4,6 +4,15 @@ interface SubmissionStats {
   submissions: number;
 }
 
+export interface RecentSubmission {
+  title: string;
+  titleSlug: string;
+  timestamp: string;
+  statusDisplay: string;
+  lang: string;
+  __typename: string;
+}
+
 export interface LeetCodeUserData {
   totalSolved: number;
   totalSubmissions: SubmissionStats[];
@@ -17,7 +26,9 @@ export interface LeetCodeUserData {
     acSubmissionNum: SubmissionStats[];
     totalSubmissionNum: SubmissionStats[];
   };
+  recentSubmissions: RecentSubmission[];
 }
+
 
 export interface ShareableImage {
   url: string;
