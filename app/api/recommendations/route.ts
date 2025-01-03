@@ -1,6 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
+// CORS headers configuration
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'POST, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+};
+
+// Handle OPTIONS request for CORS preflight
+export async function OPTIONS() {
+  return NextResponse.json({}, { headers: corsHeaders });
+}
+
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
 
 function cleanJsonResponse(text: string): string {
@@ -11,43 +23,35 @@ function cleanJsonResponse(text: string): string {
   return text.trim();
 }
 
+// Remove the method check since Next.js 15 handles this automatically
 export async function POST(request: NextRequest) {
   try {
     const { solvedProblems } = await request.json();
-
-    if (!Array.isArray(solvedProblems)) {
-      return NextResponse.json(
-        { error: "solvedProblems must be an array" },
-        { status: 400 }
-      );
-    }
-
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-
-    const prompt = `Based on these solved LeetCode problems: ${solvedProblems.join(
-      ", "
-    )}, 
-    suggest 5 new LeetCode problems that would help the user progress in their learning journey. 
-    Consider the difficulty progression and concepts covered. 
-    Return ONLY a JSON array without any markdown formatting or explanation, with objects containing:
-    - 'title': The exact problem title as it appears on LeetCode
-    - 'titleSlug': The URL-friendly version of the title (all lowercase, hyphens instead of spaces)
-    - 'reason': Why this problem would be beneficial
-    - 'difficulty': The problem's difficulty level (Easy, Medium, or Hard)`;
-
+    
+    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+    const prompt = `Given these solved LeetCode problems: ${solvedProblems.join(", ")}, suggest 3 new problems to practice. Return response as JSON array with properties: title, titleSlug, difficulty, and reason.`;
+    
     const result = await model.generateContent(prompt);
-    const response = await result.response;
-    const text = response.text();
-
-    const cleanedJson = cleanJsonResponse(text);
-    const recommendations = JSON.parse(cleanedJson);
-
-    return NextResponse.json({ recommendations });
-  } catch (error: any) {
-    console.error("Error in recommendations API:", error);
+    const text = result.response.text();
+    const recommendations = JSON.parse(cleanJsonResponse(text));
+    
+    return NextResponse.json({ recommendations }, { 
+      headers: {
+        ...corsHeaders,
+        'Content-Type': 'application/json',
+      }
+    });
+  } catch (error) {
+    console.error('Error in POST handler:', error);
     return NextResponse.json(
-      { error: error.message || "Failed to get recommendations" },
-      { status: 500 }
+      { error: "Failed to get recommendations" },
+      { 
+        status: 500, 
+        headers: {
+          ...corsHeaders,
+          'Content-Type': 'application/json',
+        }
+      }
     );
   }
 }
