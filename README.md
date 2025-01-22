@@ -1,6 +1,11 @@
 # Chill Guy LeetCode Analyzer
 
+![chillguy-leetcode](https://github.com/user-attachments/assets/fdbf20f6-02c1-4888-a953-d79d4894e4c6)
+
 Welcome to the **Chill Guy LeetCode Analyzer**! This project is designed to help you analyze your LeetCode profile and discover how "chill" you are when it comes to solving coding problems. Whether you're a seasoned coder or just starting out, this tool provides insights into your coding habits, streaks, and overall performance.
+
+https://github.com/user-attachments/assets/4a9d0ae6-d977-41cc-81ed-ca2f85f8eaae
+
 
 ## Features
 
