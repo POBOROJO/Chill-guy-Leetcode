@@ -10,7 +10,7 @@ export default function ComparePage() {
           Compare LeetCode Profiles
         </h1>
         <p className="text-muted-foreground text-center mb-12">
-          Compare up to 5 LeetCode profiles to see who's the chillest coder!
+          Compare up to 5 LeetCode profiles to see who&apos;s the chillest coder!
         </p>
         <UserComparison />
       </div>

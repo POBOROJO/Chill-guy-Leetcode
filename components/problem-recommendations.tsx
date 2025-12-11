@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { RecentSubmission } from "@/lib/types";
-import { getProblemRecommendations } from "@/lib/gemini";
+import { getProblemRecommendations } from "@/lib/llm";
 import { COOLDOWN_PERIOD, LAST_REQUEST_KEY } from "@/lib/constants";
 import { Loader2, Brain, ExternalLink } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
