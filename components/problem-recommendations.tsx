@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { RecentSubmission } from "@/lib/types";
@@ -27,6 +27,7 @@ export function ProblemRecommendations({
   const [recommendations, setRecommendations] = useState<Recommendation[]>([]);
   const [cooldownRemaining, setCooldownRemaining] = useState(0);
   const { toast } = useToast();
+  const recommendationsRef = React.useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const checkCooldown = () => {
@@ -51,9 +52,18 @@ export function ProblemRecommendations({
     return () => clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+    if (recommendations.length > 0 && recommendationsRef.current) {
+      recommendationsRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+      });
+    }
+  }, [recommendations]);
+
   const handleGetRecommendations = async () => {
     if (cooldownRemaining > 0) return;
-    
+
     setLoading(true);
     try {
       const uniqueSolvedProblems = Array.from(
@@ -68,13 +78,17 @@ export function ProblemRecommendations({
         throw new Error("No solved problems found");
       }
 
-      const recommendations = await getProblemRecommendations(uniqueSolvedProblems);
+      const recommendations = await getProblemRecommendations(
+        uniqueSolvedProblems
+      );
       setRecommendations(recommendations);
       setCooldownRemaining(COOLDOWN_PERIOD / 1000);
     } catch (error: any) {
       toast({
         title: "Error",
-        description: error.message || "Failed to get problem recommendations. Please try again.",
+        description:
+          error.message ||
+          "Failed to get problem recommendations. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -119,7 +133,7 @@ export function ProblemRecommendations({
       </div>
 
       {recommendations.length > 0 && (
-        <Card className="p-6">
+        <Card ref={recommendationsRef} className="p-6">
           <h3 className="text-lg font-semibold mb-4">Recommended Problems</h3>
           <div className="space-y-4">
             {recommendations.map((rec, index) => (

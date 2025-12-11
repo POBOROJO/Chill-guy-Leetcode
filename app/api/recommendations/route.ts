@@ -100,7 +100,7 @@ export async function POST(request: NextRequest) {
     }
 
     const payload = {
-      model: body.model || "openai/gpt-oss-20b:free", // the default; change if needed
+      model: body.model || "google/gemma-3-27b-it:free", // the default; change if needed
       messages,
       max_tokens: body.max_tokens ?? 512,
       temperature: typeof body.temperature === "number" ? body.temperature : 0.8,
