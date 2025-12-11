@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
   try {
     const { solvedProblems } = await request.json();
     
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
     const prompt = `Given these solved LeetCode problems: ${solvedProblems.join(", ")}, suggest 3 new problems to practice. Return response as JSON array with properties: title, titleSlug, difficulty, and reason.`;
     
     const result = await model.generateContent(prompt);
